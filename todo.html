@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ToDoApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/angular.min.js"></script>
+    <script src="js/todo.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+<body>
+<h1>ToDo App</h1>
+<h2>Tasks</h2>
+<div ng-controller="ToDoAppController">
+<h3>Active({{tasks.length}})</h3>
+<form ng-submit="addTask()">
+<input type="text" placeholder="Add a task" ng-model="newTaskName">
+<button type="submit">Add</button>
+</form>
+<span ng-hide="tasks.length"> You have no active tasks!</span>
+<div ng-repeat="task in tasks track by $index">
+<input type="checkbox" ng-click="markComplete($index);">{{task.name}}<br>
+</div>
+<div ng-show="completed.length">
+<h3>Completed({{completed.length}})</h3>
+<div ng-repeat="item in completed">
+    <input type="checkbox" ng-click="markIncomplete($index);"><span class="complete" ng-style="complete={'text-decoration': 'line-through'}">{{item.name}}</span><br>
+</div>
+
+</div>
+    
+</body>
+</html>
