@@ -15,8 +15,19 @@
             task.done = false;
             task.name = $scope.newTaskName;
             task.done = false;
+            task.icon = "star_border"
             $scope.tasks.push(task)
             $scope.newTaskName = ""
+        }
+
+        $scope.toggleImportant = function (task) {
+         if (task.icon && task.icon=="star") {
+             task.icon = "star_border"
+         }
+         else if (task.icon && task.icon=="star_border") {
+             task.icon = "star"
+         }
+
         }
 
         $scope.markComplete = function(index) {

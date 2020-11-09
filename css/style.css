@@ -1,0 +1,15 @@
+
+
+div.jumbotron {
+    max-height: 50px;
+    background-color: inherit;
+    padding: 1rem 1rem;
+}
+
+.toggle-important {
+    float:right;
+}
+
+details {
+    outline:none;
+}
