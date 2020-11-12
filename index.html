@@ -25,43 +25,49 @@
         </div>
     </div>
     
-    <div class="container" ng-controller="ToDoAppController">
+    <div class="container" ng-controller="TodoController">
         <div class="row">
-        <div class="col-md-8">
-            <h2>Tasks </h2>
-            <form ng-submit="addTask()">
-                <div class="input-group mb-3">
+            <div class="col-md-8">
+                <h2>Tasks </h2>
+                <div class="input-group mb-3" ng-controller="AddTaskController as addTask">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">&#43</label>
+                        <span class="input-group-text">	&#43;</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Add a task" ng-model="newTaskName" aria-label="Enter a task" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" ng-model="task" placeholder="add a task">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Add</button>
+                        <button ng-click="addItem(task);" class="btn btn-outline-secondary" type="submit" id="button-addon2">add</button>
                     </div>
+                    <br>
+                
                 </div>
-            </form>
-            <span ng-hide="tasks.length"> You have no active tasks!</span>
-            <div ng-show="tasks.length">
-                <h3>Active Tasks<small>({{tasks.length}})</small></h3>
-                <ul id="active-tasks" class="list-group">
-                    <li ng-repeat="task in tasks" class="list-group-item">
-                        <input type="checkbox" class="incompleted"  id="taskCheck" ng-click="markComplete($index);" title="mark completed">
-                        <span> {{task.name}}</span><span class="material-icons toggle-important" ng-click="toggleImportant(task);" title="mark task as important">{{task.icon}}</span>
-                    </li>
-                </ul>
-            </div>
-            
-            <details ng-show="completed.length">
-                <summary><span class="h3">Completed({{completed.length}})</span></summary> 
-                <ul id="completed-tasks"' class="list-group">
-                    <li ng-repeat="task in completed" class="list-group-item">
-                        <input type="checkbox" class="completed" ng-checked="task"  ng-click="markIncomplete($index);" title="mark incompleted" >
-                        <span ng-style="complete={'text-decoration': 'line-through'}" > {{task.name}}</span>
-                    </li>
-                </ul>                
-            </details>
-        
-        </div>
+                <div ng-hide="activeItems.length">
+                  <hr>
+                  <p >You have no active items </p>
+                </div>
+                <div ng-show="activeItems.length"  ng-controller="ActiveController as showlist">
+                <hr>
+                <h3>Active <span class="h6">({{activeItems.length}})</span></h3>
+                        <li class="list-group-item" ng-repeat="task in activeItems"> 
+                        <input type="checkbox"  ng-click="markComplete($index)" title="Mark item as complete">
+                         <span> {{task.content}}</span>
+                         <span ng-if="task.important" class="material-icons toggle-important" ng-click="toggleImportance(activeItems, $index);" title="remove importance">star</span>
+                         <span ng-if="!task.important"class="material-icons toggle-important" ng-click="toggleImportance(activeItems, $index);" title="mark task as important">star_border</span>
+                         </li>
+                   </ul>
+                </div>
+                <div ng-show="inactiveItems.length" ng-controller="InactiveController as showInactive">
+                <hr>
+                <h3>Completed <span class="h6">({{inactiveItems.length}})</span></h3>
+                 <li class="list-group-item" ng-repeat="task in inactiveItems"> 
+                        <input type="checkbox"  ng-click="markIncomplete($index)" ng-checked="task" title="Mark item as incomplete">
+                         <span class="complete" ng-style="complete={'text-decoration': 'line-through'}">{{task.content}}</span> 
+                         <span ng-if="task.important" class="material-icons toggle-important" ng-click="toggleImportance(inactiveItems, $index);" title="mark task as important">star</span>
+                         <span ng-if="!task.important"class="material-icons toggle-important" ng-click="toggleImportance(inactiveItems, $index);" title="mark task as important">star_border</span>
+                        </li>
+                </div>
+                        
+            </div> <!-- end col-md-8 -->
+        </div><!-- row -->
         <div class="col-md-3">
         
 

@@ -1,51 +1,99 @@
 (function(){
-    angular.module('ToDoApp', [])
-    .controller('ToDoAppController', ToDoAppController);
+    'use strict'; 
 
-    ToDoAppController.$inject = ['$scope']
-    function ToDoAppController($scope) {
-        $scope.tasks = [];
-        $scope.completed = [];
-        $scope.newTaskName = "";
+    angular.module('ToDoApp', [])
+    .controller('TodoController', TodoController)
+    .controller('AddTaskController', AddTaskController)
+    .controller('ActiveController', ActiveController)
+    .controller('InactiveController', InactiveController)
+    .service('ListService', ListService);
+
+    TodoController.$inject = ['$scope', 'ListService'];
+    function TodoController($scope, ListService) {
+        $scope.activeItems = ListService.getActive()
+        $scope.inactiveItems = ListService.getInactive()
+        $scope.removeItem = function(list, index) {
+            ListService.removeItem(list, index)
+        }
+        $scope.toggleImportance = function(list, index) {
+            ListService.toggleImportance(list, index)
+        }
+        $scope.markComplete = function(index) {
+            ListService.markComplete(index)
+        }
+    }
+    
+    AddTaskController.$inject = ['$scope', 'ListService'];
+    function AddTaskController($scope, ListService) {
+        $scope.task = ""
+        $scope.addItem = function() {
+            ListService.addItem($scope.task)
+            $scope.task = "";
+        }
+    }
+
+    ActiveController.$inject = ['$scope', 'ListService'];
+    function ActiveController($scope, ListService) {
+        $scope.activeItems = ListService.getActive()
+
+    }
+    
+    InactiveController.$inject = ['$scope', 'ListService']
+    function InactiveController($scope, ListService) {
+        $scope.inactiveItems = ListService.getInactive()
+        $scope.markIncomplete = function(index) {
+            ListService.markIncomplete(index)
+        }
+
+    }
         
 
-        $scope.addTask = function(){
-            var task = new Object();
-            task.name = "";
+    function ListService () {
+        var service = this;
+        var active = [];
+        var inactive = [];
+
+        service.addItem = function (content) {
+            var task = new Object;
+            task.content = content,
             task.done = false;
-            task.name = $scope.newTaskName;
-            task.done = false;
-            task.icon = "star_border"
-            $scope.tasks.push(task)
-            $scope.newTaskName = ""
+            task.important = false 
+            active.push(task)
         }
 
-        $scope.toggleImportant = function (task) {
-         if (task.icon && task.icon=="star") {
-             task.icon = "star_border"
-         }
-         else if (task.icon && task.icon=="star_border") {
-             task.icon = "star"
-         }
+        service.getActive = function(){
+            return active;
+        }
+        service.getInactive = function() {
+            return inactive
+        }
+        service.removeItem = function(index) {
+            active.splice(index, 1);
 
         }
-
-        $scope.markComplete = function(index) {
-            var task = new Object();
-            task.name = $scope.tasks[index].name
-            task.done = true 
-            $scope.completed.push(task)
-            $scope.tasks.splice(index, 1)
-            
-            
+        service.markComplete = function(index) {
+            inactive.push(active[index]);
+            active.splice(index, 1);
 
         }
+        service.markIncomplete = function(index) {
+            active.push(inactive[index]);
+            inactive.splice(index, 1);
 
-        $scope.markIncomplete = function(index) {
-            var completedTask = $scope.completed[index]
-            $scope.newTaskName = completedTask.name
-            $scope.addTask();
-            $scope.completed.splice(index, 1)
         }
+        service.markImportant = function(list, index) {
+            list[index].important = true;
+
+        }
+        service.toggleImportance = function(list, index) {
+            if(list[index].important == false) {
+                list[index].important = true;
+            }
+            else {
+                list[index].important = false;
+            }
+        }
+    
+
     }
 })();
