@@ -1,0 +1,2 @@
+<input ng-if="list.active" type="checkbox"   ng-click="markComplete($index)" title="{{list.checkBoxTitle}}">
+<input ng-if="!list.active" type="checkbox" ng-checked="task"  ng-click="markIncomplete($index)" title="{{list.checkBoxTitle}}">

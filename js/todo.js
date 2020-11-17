@@ -6,7 +6,47 @@
     .controller('AddTaskController', AddTaskController)
     .controller('ActiveController', ActiveController)
     .controller('InactiveController', InactiveController)
-    .service('ListService', ListService);
+    .service('ListService', ListService)
+    .directive('clickStar', ClickStar)
+    .directive('checkbox', Checkbox)
+    .directive('taskContent', TaskContent)
+    .directive('listItem', ListItem);
+
+
+    function ListItem () {
+        var ddo = {
+            restrict: 'E',
+            scope:{
+                listInfo:'=info',
+
+            },
+            templateUrl: 'templates/list_item.html'
+        };
+        return ddo;
+    }
+
+
+    function TaskContent() {
+        var ddo = {
+            templateUrl: 'templates/task_content.html'
+        };
+        return ddo;
+    }
+
+
+    function Checkbox () {
+        var ddo = {
+            templateUrl: 'templates/checkbox.html'
+        }
+        return ddo;
+    }
+
+    function ClickStar(){
+        var ddo = {
+            templateUrl:'templates/click_star.html'
+        };
+        return ddo;
+    }
 
     TodoController.$inject = ['$scope', 'ListService'];
     function TodoController($scope, ListService) {
@@ -35,6 +75,9 @@
     ActiveController.$inject = ['$scope', 'ListService'];
     function ActiveController($scope, ListService) {
         $scope.activeItems = ListService.getActive()
+        var list = this;
+        this.checkBoxTitle = "mark as complete"
+        this.active = true;
 
     }
     
@@ -44,6 +87,9 @@
         $scope.markIncomplete = function(index) {
             ListService.markIncomplete(index)
         }
+        var list = this;
+        this.checkBoxTitle = "mark as incomplete"
+        this.active = false;
 
     }
         

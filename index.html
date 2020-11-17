@@ -44,26 +44,28 @@
                   <hr>
                   <p >You have no active items </p>
                 </div>
-                <div ng-show="activeItems.length"  ng-controller="ActiveController as showlist">
+                <div ng-show="activeItems.length"  ng-controller="ActiveController as list">
                 <hr>
-                <h3>Active <span class="h6">({{activeItems.length}})</span></h3>
-                        <li class="list-group-item" ng-repeat="task in activeItems"> 
-                        <input type="checkbox"  ng-click="markComplete($index)" title="Mark item as complete">
-                         <span> {{task.content}}</span>
-                         <span ng-if="task.important" class="material-icons toggle-important" ng-click="toggleImportance(activeItems, $index);" title="remove importance">star</span>
-                         <span ng-if="!task.important"class="material-icons toggle-important" ng-click="toggleImportance(activeItems, $index);" title="mark task as important">star_border</span>
-                         </li>
+                <h3>Active <span class="h6">({{activeItems.length}})</span></h3>                                
+
+                    <ul>
+                        <li class="list-group-item" ng-repeat="task in activeItems">                   
+                            <checkbox></checkbox>
+                            <task-content></task-content>
+                            <click-star ng-click="toggleImportance(activeItems, $index);" ></click-star>
+                        </li>
                    </ul>
                 </div>
-                <div ng-show="inactiveItems.length" ng-controller="InactiveController as showInactive">
+                <div ng-show="inactiveItems.length" ng-controller="InactiveController as list">
                 <hr>
                 <h3>Completed <span class="h6">({{inactiveItems.length}})</span></h3>
-                 <li class="list-group-item" ng-repeat="task in inactiveItems"> 
-                        <input type="checkbox"  ng-click="markIncomplete($index)" ng-checked="task" title="Mark item as incomplete">
-                         <span class="complete" ng-style="complete={'text-decoration': 'line-through'}">{{task.content}}</span> 
-                         <span ng-if="task.important" class="material-icons toggle-important" ng-click="toggleImportance(inactiveItems, $index);" title="mark task as important">star</span>
-                         <span ng-if="!task.important"class="material-icons toggle-important" ng-click="toggleImportance(inactiveItems, $index);" title="mark task as important">star_border</span>
+                    <ul>
+                        <li class="list-group-item" ng-repeat="task in inactiveItems">                   
+                            <checkbox></checkbox>
+                            <task-content></task-content>
+                            <click-star ng-click="toggleImportance(inactiveItems, $index);" ></click-star>
                         </li>
+                    </ul>
                 </div>
                         
             </div> <!-- end col-md-8 -->

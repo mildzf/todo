@@ -13,3 +13,7 @@ div.jumbotron {
 details {
     outline:none;
 }
+
+.complete {
+    text-decoration: line-through;
+}
